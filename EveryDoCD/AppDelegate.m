@@ -27,7 +27,19 @@
     UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
     MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
+    
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    if (![userDefault objectForKey:@"toDoDefault"]) {
+        [self creatDefault];
+    }
     return YES;
+}
+
+- (void)creatDefault {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dict = @{@"name": @"Do", @"task": @"Do it", @"priority": @(1)};
+    [userDefault setObject:dict forKey:@"toDoDefault"];
+    [userDefault synchronize];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

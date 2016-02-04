@@ -14,6 +14,7 @@
 #import "AddTaskController.h"
 
 @interface MasterViewController () <UITableViewDataSource, NSFetchedResultsControllerDelegate, AddTaskDelegate>
+@property (nonatomic, assign) BOOL themeSelect;
 
 
 @end
@@ -107,8 +108,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+        ToDo *selectedToDo = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
+        controller.detailItem = selectedToDo;
         
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
@@ -163,6 +165,27 @@
     cell.taskLabel.text = selectedToDo.name;
     cell.descriptionLabel.text = selectedToDo.task;
     cell.priorityLabel.text = [NSString stringWithFormat:@"%d", selectedToDo.priority];
+    
+//    cell.priorityLabel.backgroundColor = [UIColor colorWithHue:selectedToDo.priority * 12.0/360.0 saturation:1.0 brightness:1.0 alpha:1.0];
+    
+    //if there is a preference page
+    //NSArray *themeVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Themes"];
+
+    NSString *selectedTheme = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Selected theme"];
+    if (!self.themeSelect) {
+        [selectedTheme isEqualToString:@"green"];
+    }
+    else [selectedTheme isEqualToString:@"default"];
+    
+    if ([selectedTheme isEqualToString:@"default"]) {
+    cell.priorityLabel.backgroundColor = [UIColor colorWithHue:selectedToDo.priority * 12.0/360.0 saturation:1.0 brightness:1.0 alpha:1.0];
+    }
+    
+    if ([selectedTheme isEqualToString:@"green"]) {
+    cell.priorityLabel.backgroundColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:1.0];
+    cell.backgroundColor = [UIColor colorWithRed:1.0 - selectedToDo.priority/10.0 green:0.9 blue:selectedToDo.priority/10.0 alpha:1.0];
+    self.view.tintColor = [UIColor colorWithRed:51.0/255.0 green:113.0/255.0 blue:255.0/255.0 alpha:1.0];
+    }
 }
 
 #pragma mark - Fetched results controller
@@ -254,6 +277,11 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView endUpdates];
+}
+
+- (IBAction)switch:(UIButton *)sender {
+    self.themeSelect = !self.themeSelect;
+    [self.tableView reloadData];
 }
 
 /*

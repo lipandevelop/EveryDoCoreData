@@ -10,9 +10,12 @@
 #import "ToDo.h"
 
 @interface DetailViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *tasktitle;
+@property (weak, nonatomic) IBOutlet UILabel *taskdescription;
+@property (weak, nonatomic) IBOutlet UILabel *priority;
+@property (weak, nonatomic) IBOutlet UILabel *status;
 
 @property (strong, nonatomic) ToDo *detailItem;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
 @end
 

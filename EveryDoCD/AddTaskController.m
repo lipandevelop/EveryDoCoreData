@@ -7,6 +7,7 @@
 //
 
 #import "AddTaskController.h"
+#import "ToDo.h"
 
 @interface AddTaskController () <UITextFieldDelegate>
 
@@ -16,7 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dict = [defaults objectForKey:@"toDoDefault"];
+    self.nameText.text = dict[@"name"];
+    self.descriptionText.text = dict[@"task"];
+    self.priorityText.text = [NSString stringWithFormat:@"%@", dict[@"priority"]];
     [self.nameText becomeFirstResponder];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -34,9 +41,10 @@
 - (IBAction)addButton:(id)sender {
     self.nameInput = self.nameText.text;
     self.descriptionInput = self.descriptionText.text;
-    self.priorityText.text = [NSString stringWithString:@(self.priorityInput).stringValue];
-    //self.priceField = self.priorityInput.text.intValue;
-    [self.delegate addTaskWithName:self.nameInput taskDescription:self.descriptionInput priorityNumber:self.priorityInput];
+    
+    self.priorityInput = self.priorityText.text;
+    int32_t priority = (self.priorityInput).intValue;
+    [self.delegate addTaskWithName:self.nameInput taskDescription:self.descriptionInput priorityNumber:priority];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

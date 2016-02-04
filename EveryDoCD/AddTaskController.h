@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *addTaskButton;
 @property (strong, nonatomic) NSString *nameInput;
 @property (strong, nonatomic) NSString *descriptionInput;
-@property (assign, nonatomic) int32_t priorityInput;
+@property (assign, nonatomic) NSString *priorityInput;
 @property (strong, nonatomic) ToDoCell *toDoInfo;
 
 @end

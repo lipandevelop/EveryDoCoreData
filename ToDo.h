@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ToDo : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
-- (void)configureWithName: (NSString *)name taskDescription: (NSString *)task priorityNumber: (int32_t *)priority;
+- (void)configureWithName: (NSString *)name taskDescription: (NSString *)task priorityNumber: (int32_t)priority;
 
 @end
 
