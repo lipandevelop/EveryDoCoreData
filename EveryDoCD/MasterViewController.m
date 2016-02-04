@@ -166,16 +166,12 @@
     cell.descriptionLabel.text = selectedToDo.task;
     cell.priorityLabel.text = [NSString stringWithFormat:@"%d", selectedToDo.priority];
     
-//    cell.priorityLabel.backgroundColor = [UIColor colorWithHue:selectedToDo.priority * 12.0/360.0 saturation:1.0 brightness:1.0 alpha:1.0];
+    cell.priorityLabel.backgroundColor = [UIColor colorWithHue:selectedToDo.priority * 12.0/360.0 saturation:1.0 brightness:1.0 alpha:1.0];
     
-    //if there is a preference page
-    //NSArray *themeVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Themes"];
+//    if there is a preference page
+//    NSArray *themeVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Themes"];
 
     NSString *selectedTheme = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Selected theme"];
-    if (!self.themeSelect) {
-        [selectedTheme isEqualToString:@"green"];
-    }
-    else [selectedTheme isEqualToString:@"default"];
     
     if ([selectedTheme isEqualToString:@"default"]) {
     cell.priorityLabel.backgroundColor = [UIColor colorWithHue:selectedToDo.priority * 12.0/360.0 saturation:1.0 brightness:1.0 alpha:1.0];
@@ -281,6 +277,15 @@
 
 - (IBAction)switch:(UIButton *)sender {
     self.themeSelect = !self.themeSelect;
+    NSString *selectedTheme = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"Selected theme"];
+    
+    if ([selectedTheme isEqualToString:@"default"]) {
+        selectedTheme = @"green";
+    }
+    if ([selectedTheme isEqualToString:@"green"]) {
+        selectedTheme = @"default";
+    }
+
     [self.tableView reloadData];
 }
 
